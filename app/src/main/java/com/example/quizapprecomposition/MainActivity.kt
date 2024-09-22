@@ -37,7 +37,7 @@ fun QuizApp() {
     )
 
     var currentQuestionIndex by remember { mutableIntStateOf(0) }
-    var userAnswer by remember { mutableStateOf("") }
+    var userInput by remember { mutableStateOf("") }
     var quizCompleted by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -83,15 +83,15 @@ fun QuizApp() {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 TextField(
-                    value = userAnswer,
-                    onValueChange = { userAnswer = it },
+                    value = userInput,
+                    onValueChange = { userInput = it },
                     label = { Text("Your Answer") },
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 Button(onClick = {
                     scope.launch {
-                        if (userAnswer.equals(correctAnswer, ignoreCase = true)) {
+                        if (userInput.equals(correctAnswer, ignoreCase = true)) {
                             snackbarHostState.showSnackbar("Correct!", duration = SnackbarDuration.Short)
 
                             if (currentQuestionIndex < questions.size - 1) {
@@ -104,7 +104,7 @@ fun QuizApp() {
                             snackbarHostState.showSnackbar("Incorrect. Try again!")
                         }
                         // Clear the input after checking
-                        userAnswer = ""
+                        userInput = ""
                     }
                 }) {
                     Text("Submit Answer")
